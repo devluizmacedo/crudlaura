@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remover Item</title>
+</head>
+<body>
+  <h1>Remover Item</h1>
+  <p id="confirmarRemocao"></p>
+  <button onclick="removerItem()">Remover Item</button>
+  <button onclick="window.location.href='listar.html'">Voltar</button>
+
+  <script>
+    function carregarItemParaRemover() {
+      const params = new URLSearchParams(window.location.search);
+      const itemId = params.get('id');
+
+      const itens = JSON.parse(localStorage.getItem('itens')) || [];
+      const item = itens[itemId];
+
+      if (item) {
+        document.getElementById('confirmarRemocao').innerText = `Tem certeza que deseja remover o item: ${item.nome}?`;
+      } else {
+        window.location.href = 'listar.html';
+      }
+    }
+
+    function removerItem() {
+      const params = new URLSearchParams(window.location.search);
+      const itemId = params.get('id');
+
+      const itens = JSON.parse(localStorage.getItem('itens')) || [];
+      itens.splice(itemId, 1);  
+
+      localStorage.setItem('itens', JSON.stringify(itens));
+      alert('Item removido!');
+      window.location.href = 'listar.html';  
+    }
+
+    window.onload = carregarItemParaRemover;
+  </script>
+</body>
+</html>
