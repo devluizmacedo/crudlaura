@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alterar Item</title>
+  <link rel="stylesheet" href="/crudlaura/style.css">
+</head>
+<body>
+  <h2>Alterar Item</h2>
+  <form id="formAlterar">
+    <input type="hidden" id="itemId">
+    <input type="text" id="nome" placeholder="Nome do Item" required><br>
+    <input type="number" id="quantidade" placeholder="Quantidade" required><br>
+    <button type="submit">Alterar Item</button>
+  </form>
+  <button onclick="window.location.href='listar.html'">Voltar</button>
+
+  <script>
+    function carregarItem() {
+      const params = new URLSearchParams(window.location.search);
+      const itemId = params.get('id');
+
+      const itens = JSON.parse(localStorage.getItem('itens')) || [];
+      const item = itens[itemId];
+
+      if (item) {
+        document.getElementById('itemId').value = itemId;
+        document.getElementById('nome').value = item.nome;
+        document.getElementById('quantidade').value = item.quantidade;
+      }
+    }
+
+    document.getElementById('formAlterar').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const itemId = document.getElementById('itemId').value;
+      const nome = document.getElementById('nome').value;
+      const quantidade = document.getElementById('quantidade').value;
+
+      const itens = JSON.parse(localStorage.getItem('itens')) || [];
+      itens[itemId] = {nome, quantidade};
+
+      localStorage.setItem('itens', JSON.stringify(itens));
+      alert('Item alterado!');
+      window.location.href = 'listar.html'; 
+    });
+
+    window.onload = carregarItem;
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listar Itens</title>
+  <link rel="stylesheet" href="/crudlaura/style.css">
+</head>
+<body>
+  <h2>Lista de Itens</h2>
+  <ul id="itemList"></ul>
+  <button onclick="window.location.href='index.html'">Voltar</button>
+
+  <script>
+    function listarItens() {
+      const itens = JSON.parse(localStorage.getItem('itens'));
+      const itemList = document.getElementById('itemList');
+      itemList.innerHTML = '';
+
+      itens.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `${item.nome} - Quantidade: ${item.quantidade} 
+          <a href="alterar.html?id=${index}">Alterar</a> | 
+          <a href="remover.html?id=${index}">Remover</a>`;
+        itemList.appendChild(li);
+      });
+    }
+
+    window.onload = listarItens;
+  </script>
+</body>
+</html>
